@@ -1,0 +1,30 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package io.github.dengue360.api.repositories;
+
+import io.github.dengue360.api.entities.CaseD;
+import io.github.dengue360.api.entities.CasePK;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+/**
+ *
+ * @author Rafael
+ */
+@Repository
+public interface CaseRepository extends JpaRepository<CaseD, CasePK>{
+    
+    //TODO Verificar essa consulta 
+    @Query("SELECT p.sexo FROM CaseD c "
+            + "INNER JOIN Person p ON (c.personcod = p.id) "
+            + "INNER JOIN TimeD t ON (c.timecod = t.id) "
+            + "WHERE t.mes = :month AND t.ano = :year")
+    public List<String> findAllSexByMonth(@Param("month")String mes, @Param("year") Integer ano);
+}
