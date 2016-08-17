@@ -19,9 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Rafael
  */
 @RestController
-@RequestMapping (value = "/p",
-                 produces = MediaType.APPLICATION_JSON_VALUE)
-public class PersoniController {
+@RequestMapping (value = "/p")
+public class PersonController {
     @Inject
     private PersonService pservice;
     
