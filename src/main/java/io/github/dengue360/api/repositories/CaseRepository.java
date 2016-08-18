@@ -22,9 +22,23 @@ import org.springframework.stereotype.Repository;
 public interface CaseRepository extends JpaRepository<CaseD, CasePK>{
     
     //TODO Verificar essa consulta 
-    @Query("SELECT p.sexo FROM CaseD c "
-            + "INNER JOIN Person p ON (c.personcod = p.id) "
-            + "INNER JOIN TimeD t ON (c.timecod = t.id) "
+     @Query("SELECT c FROM CaseD c "
+            + "INNER JOIN Person p ON (c.id.personCod = p.id) "
+            + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
             + "WHERE t.mes = :month AND t.ano = :year")
-    public List<String> findAllSexByMonth(@Param("month")String mes, @Param("year") Integer ano);
+    public List<CaseD> findAllSexByMonth(@Param("month")String mes, @Param("year") Integer ano);
+    
+      @Query("SELECT COUNT(c) FROM CaseD c "
+              + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+              + "WHERE l.cidade = ?1")  
+      public Integer countAllCasesByCity(String cidade);
+      
+      @Query("SELECT COUNT(c) FROM CaseD c")  
+      public Integer countAllCases();
+      
+      @Query("SELECT COUNT(c) FROM CaseD c WHERE c.confirmado = true")  
+      public Integer countCasesConfirmados();
+      
+      @Query("SELECT COUNT(c) FROM CaseD c WHERE c.grave = true")  
+      public Integer countCasesGrave();
 }

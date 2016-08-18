@@ -7,6 +7,7 @@
 package io.github.dengue360.api.services;
 
 import io.github.dengue360.api.repositories.CaseRepository;
+import io.github.dengue360.api.entities.CaseD;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,7 +26,7 @@ public class CaseServiceImpl implements CaseService{
     }
     
     @Override
-    public List<String> listSexo(String mes, Integer ano) {
+    public List<CaseD> listSexo(String mes, Integer ano) {
         return repo.findAllSexByMonth(mes, ano);
     }
     

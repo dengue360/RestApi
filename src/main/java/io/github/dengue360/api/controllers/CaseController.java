@@ -10,6 +10,7 @@ import io.github.dengue360.api.services.CaseService;
 import javax.inject.Inject;
 import java.util.List;
 import org.springframework.http.MediaType;
+import io.github.dengue360.api.entities.CaseD;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +28,7 @@ public class CaseController {
     private CaseService cService;
     
     @RequestMapping(method = RequestMethod.GET, value="/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<String> list(@RequestParam(value = "mes",required = false) String mes, 
+    public List<CaseD> list(@RequestParam(value = "mes",required = false) String mes, 
             @RequestParam(value = "ano",required = false) Integer ano){
         return cService.listSexo(mes, ano);
     }
