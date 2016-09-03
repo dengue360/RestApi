@@ -8,6 +8,7 @@ package io.github.dengue360.api.services;
 
 import org.springframework.stereotype.Service;
 import io.github.dengue360.api.entities.CaseD;
+import io.github.dengue360.api.entities.vo.InfoVO;
 import java.util.List;
 
 /**
@@ -17,4 +18,6 @@ import java.util.List;
 @Service
 public interface CaseService {
     public List<CaseD> listSexo(String mes, Integer ano);
+    
+    public InfoVO getInfo(String cidade, Integer ano);
 }

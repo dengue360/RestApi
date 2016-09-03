@@ -7,10 +7,12 @@
 package io.github.dengue360.api.controllers;
 
 import io.github.dengue360.api.entities.Location;
+import io.github.dengue360.api.entities.vo.CityVO;
 import io.github.dengue360.api.services.LocationService;
-import javax.inject.Inject;
 import java.util.List;
+import javax.inject.Inject;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +33,7 @@ public class LocationController {
         return lService.findbyCity(cidade);
     }
     @RequestMapping(method = RequestMethod.GET, value="/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<String> listCities(){
+    public List<CityVO> listCities(){
         return lService.listCidades();
     }
 }

@@ -7,6 +7,7 @@
 package io.github.dengue360.api.services;
 
 import io.github.dengue360.api.entities.Location;
+import io.github.dengue360.api.entities.vo.CityVO;
 import java.util.List;
 import org.springframework.stereotype.Service;
 /**
@@ -16,5 +17,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface LocationService {
     public List<Location> findbyCity(String cidade);
-    public List<String> listCidades();        
+    public List<CityVO> listCidades();        
 }

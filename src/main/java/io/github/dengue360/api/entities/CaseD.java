@@ -27,7 +27,7 @@ public class CaseD implements Serializable{
 
     public CaseD() {
     }
-
+    
     public CaseD(CasePK id, Boolean confirmado, Boolean grave, String agravo, Boolean obito) {
         this.id = id;
         this.confirmado = confirmado;

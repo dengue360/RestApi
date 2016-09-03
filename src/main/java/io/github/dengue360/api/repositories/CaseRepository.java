@@ -27,11 +27,6 @@ public interface CaseRepository extends JpaRepository<CaseD, CasePK>{
             + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
             + "WHERE t.mes = :month AND t.ano = :year")
     public List<CaseD> findAllSexByMonth(@Param("month")String mes, @Param("year") Integer ano);
-    
-      @Query("SELECT COUNT(c) FROM CaseD c "
-              + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
-              + "WHERE l.cidade = ?1")  
-      public Integer countAllCasesByCity(String cidade);
       
       @Query("SELECT COUNT(c) FROM CaseD c")  
       public Integer countAllCases();
@@ -41,4 +36,29 @@ public interface CaseRepository extends JpaRepository<CaseD, CasePK>{
       
       @Query("SELECT COUNT(c) FROM CaseD c WHERE c.grave = true")  
       public Integer countCasesGrave();
+      
+     //COunt Queries 
+     @Query("SELECT COUNT(c) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE l.cidade = :city AND t.ano = :year")  
+      public Integer countAllCasesByCity(@Param("city")String cidade, @Param("year")Integer ano);
+      
+      @Query("SELECT COUNT(c) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND c.confirmado = true")   
+      public Integer countCasesConfirmadosByCity(@Param("city")String cidade, @Param("year")Integer ano);
+      
+      @Query("SELECT COUNT(c) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND c.grave = true") 
+      public Integer countCasesGraveByCity(@Param("city")String cidade, @Param("year")Integer ano);
+      
+      @Query("SELECT COUNT(c) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND c.obito = true") 
+      public Integer countCasesObitoByCity(@Param("city")String cidade, @Param("year")Integer ano);
 }

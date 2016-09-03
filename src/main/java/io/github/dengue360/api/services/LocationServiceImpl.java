@@ -7,6 +7,7 @@
 package io.github.dengue360.api.services;
 
 import io.github.dengue360.api.entities.Location;
+import io.github.dengue360.api.entities.vo.CityVO;
 import io.github.dengue360.api.repositories.LocationRepository;
 import java.util.List;
 import javax.inject.Inject;
@@ -32,7 +33,7 @@ public class LocationServiceImpl implements LocationService{
     }
 
     @Override
-    public List<String> listCidades() {
+    public List<CityVO> listCidades() {
         return repo.listCityNames();
     }
     
