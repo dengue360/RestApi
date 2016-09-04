@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import java.util.List;
 import org.springframework.http.MediaType;
 import io.github.dengue360.api.entities.CaseD;
+import io.github.dengue360.api.entities.vo.CoordenadasVO;
 import io.github.dengue360.api.entities.vo.InfoVO;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,5 +39,11 @@ public class CaseController {
     public InfoVO infoQtde(@RequestParam(value = "cidade",required = true) String cidade, 
             @RequestParam(value = "ano",required = true) Integer ano){
         return cService.getInfo(cidade, ano);
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value="/coor", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CoordenadasVO> coordenadas(@RequestParam(value = "cidade",required = true) String cidade, 
+            @RequestParam(value = "ano",required = true) Integer ano){
+        return cService.getCoodenadas(cidade, ano);
     }
 }

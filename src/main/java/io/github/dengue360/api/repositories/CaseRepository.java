@@ -8,6 +8,7 @@ package io.github.dengue360.api.repositories;
 
 import io.github.dengue360.api.entities.CaseD;
 import io.github.dengue360.api.entities.CasePK;
+import io.github.dengue360.api.entities.vo.CoordenadasVO;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -61,4 +62,12 @@ public interface CaseRepository extends JpaRepository<CaseD, CasePK>{
           + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
           + "WHERE (l.cidade = :city AND t.ano = :year) AND c.obito = true") 
       public Integer countCasesObitoByCity(@Param("city")String cidade, @Param("year")Integer ano);
+      
+      //Map Queries
+      
+      @Query("select DISTINCT NEW io.github.dengue360.api.entities.vo.CoordenadasVO(l.lat, l.lng) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND l.lat not like ''")
+      public List<CoordenadasVO> listCasesCoordenates(@Param("city")String cidade, @Param("year")Integer ano);
 }

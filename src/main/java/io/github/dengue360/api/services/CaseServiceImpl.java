@@ -8,6 +8,7 @@ package io.github.dengue360.api.services;
 
 import io.github.dengue360.api.repositories.CaseRepository;
 import io.github.dengue360.api.entities.CaseD;
+import io.github.dengue360.api.entities.vo.CoordenadasVO;
 import io.github.dengue360.api.entities.vo.InfoVO;
 import java.util.List;
 import javax.inject.Inject;
@@ -41,6 +42,12 @@ public class CaseServiceImpl implements CaseService{
         info.setObitos(repo.countCasesObitoByCity(cidade, ano));
         return info;
     }
+
+    @Override
+    public List<CoordenadasVO> getCoodenadas(String cidade, Integer ano) {
+        return repo.listCasesCoordenates(cidade, ano);
+    }
+    
     
     
 }
