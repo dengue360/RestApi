@@ -11,6 +11,7 @@ import io.github.dengue360.api.entities.CasePK;
 import io.github.dengue360.api.entities.vo.CoordenadasVO;
 import io.github.dengue360.api.entities.vo.SexoGraphVO;
 import java.util.List;
+import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -122,6 +123,15 @@ public interface CaseRepository extends JpaRepository<CaseD, CasePK>{
           + "WHERE (l.cidade = :city AND t.ano = :year) AND (p.gestante = :tipoG AND t.mes = :mount)")
       public Integer countGravidezByMount(@Param("city")String cidade, @Param("year")Integer ano, 
               @Param("tipoG")String tipo, @Param("mount")String mes);
+      
+      @Query("SELECT COUNT(c) FROM CaseD c "
+        +"INNER JOIN Person p ON (c.id.personCod = p.id) "
+        +"INNER JOIN Location l ON (c.id.locationCod = l.id) "
+        +"INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+        +"WHERE (l.cidade = :city AND t.ano = :year "
+        +"AND ((:data - p.dataNasc)/365 >= :ageInit and (:data - p.dataNasc)/365 <= :ageEnd))")
+      public Integer countCasesByFaixa(@Param("city")String cidade, @Param("year")Integer ano, 
+              @Param("ageInit")Integer ageInit, @Param("ageEnd")Integer ageEnd, @Param("data") Date data);
       
       //Map Queries
       

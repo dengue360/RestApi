@@ -13,6 +13,7 @@ import java.lang.StringBuilder;
 import org.springframework.http.MediaType;
 import io.github.dengue360.api.entities.CaseD;
 import io.github.dengue360.api.entities.vo.CoordenadasVO;
+import io.github.dengue360.api.entities.vo.FaixaEtariaVO;
 import io.github.dengue360.api.entities.vo.GravidezGraphVO;
 import io.github.dengue360.api.entities.vo.InfoGraphVO;
 import io.github.dengue360.api.entities.vo.InfoVO;
@@ -71,6 +72,11 @@ public class CaseController {
         return cService.getInfoNumbers(cidade, ano);
     }
     
+    @RequestMapping(method = RequestMethod.GET, value="/graph/faixa", produces = MediaType.APPLICATION_JSON_VALUE)
+    public FaixaEtariaVO getFaixaGraphNumbers(@RequestParam(value = "cidade",required = true) String cidade, 
+            @RequestParam(value = "ano",required = true) Integer ano){
+        return cService.getFaixaNumbers(cidade, ano);
+    }
 //    @RequestMapping(method = RequestMethod.GET, value="/coor", produces = MediaType.APPLICATION_JSON_VALUE)
 //    public List<CoordenadasVO> coordenadasComFiltro(
 //            @RequestParam(value = "cidade",required = true) String cidade, 

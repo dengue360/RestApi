@@ -9,11 +9,14 @@ package io.github.dengue360.api.services;
 import io.github.dengue360.api.repositories.CaseRepository;
 import io.github.dengue360.api.entities.CaseD;
 import io.github.dengue360.api.entities.vo.CoordenadasVO;
+import io.github.dengue360.api.entities.vo.FaixaEtariaVO;
 import io.github.dengue360.api.entities.vo.GravidezGraphVO;
 import io.github.dengue360.api.entities.vo.InfoGraphVO;
 import io.github.dengue360.api.entities.vo.InfoVO;
 import io.github.dengue360.api.entities.vo.SexoGraphVO;
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -94,7 +97,21 @@ public class CaseServiceImpl implements CaseService{
         
         return graphVO;
     }
-
+    
+     @Override
+    public FaixaEtariaVO getFaixaNumbers(String cidade, Integer ano) {
+        FaixaEtariaVO etariaVO = new FaixaEtariaVO();
+        Date d = new Date();
+        etariaVO.setDe0a12(repo.countCasesByFaixa(cidade, ano, 0, 12, d));
+        etariaVO.setDe13a24(repo.countCasesByFaixa(cidade, ano, 13, 24, d));
+        etariaVO.setDe25a36(repo.countCasesByFaixa(cidade, ano, 25, 36, d));
+        etariaVO.setDe37a48(repo.countCasesByFaixa(cidade, ano, 37, 48, d));
+        etariaVO.setDe49a60(repo.countCasesByFaixa(cidade, ano, 49, 60, d));
+        etariaVO.setAcimaDe60(repo.countCasesByFaixa(cidade, ano, 61, 100, d));
+        return etariaVO;
+    }
+    
+    
     @Override
     public InfoGraphVO getInfoNumbers(String cidade, Integer ano) {
         InfoGraphVO graphVO = new InfoGraphVO();
@@ -152,7 +169,8 @@ public class CaseServiceImpl implements CaseService{
         
         return graphVO;
     }
-    
+
+   
     
     
 }
