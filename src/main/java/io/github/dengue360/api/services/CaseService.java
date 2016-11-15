@@ -6,15 +6,16 @@
 
 package io.github.dengue360.api.services;
 
-import org.springframework.stereotype.Service;
 import io.github.dengue360.api.entities.CaseD;
 import io.github.dengue360.api.entities.vo.CoordenadasVO;
 import io.github.dengue360.api.entities.vo.FaixaEtariaVO;
+import io.github.dengue360.api.entities.vo.Filtro;
 import io.github.dengue360.api.entities.vo.GravidezGraphVO;
 import io.github.dengue360.api.entities.vo.InfoGraphVO;
 import io.github.dengue360.api.entities.vo.InfoVO;
 import io.github.dengue360.api.entities.vo.SexoGraphVO;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  *
@@ -32,6 +33,7 @@ public interface CaseService {
     public GravidezGraphVO getGravidezNumbers(String cidade, Integer ano, String mes);
     public InfoGraphVO getInfoNumbers(String cidade, Integer ano);
     public FaixaEtariaVO getFaixaNumbers(String cidade, Integer ano);
+    public List<CoordenadasVO> getCoordenadasComFiltro(String cidade, Integer ano, Filtro filtros);
     
-//    public List<CoordenadasVO> getCoodenadasComFiltro(String cidade, Integer ano, String filtro);
+
 }

@@ -10,11 +10,15 @@ import io.github.dengue360.api.repositories.CaseRepository;
 import io.github.dengue360.api.entities.CaseD;
 import io.github.dengue360.api.entities.vo.CoordenadasVO;
 import io.github.dengue360.api.entities.vo.FaixaEtariaVO;
+import io.github.dengue360.api.entities.vo.Filtro;
 import io.github.dengue360.api.entities.vo.GravidezGraphVO;
 import io.github.dengue360.api.entities.vo.InfoGraphVO;
 import io.github.dengue360.api.entities.vo.InfoVO;
 import io.github.dengue360.api.entities.vo.SexoGraphVO;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import javax.inject.Inject;
@@ -170,8 +174,84 @@ public class CaseServiceImpl implements CaseService{
         return graphVO;
     }
 
-   
-    
+    @Override
+    public List<CoordenadasVO> getCoordenadasComFiltro(String cidade, Integer ano, Filtro filtros) {
+        List<CoordenadasVO> listDT = new ArrayList<>();
+        List<CoordenadasVO> listCat = new ArrayList<>();
+        List<CoordenadasVO> listGest = new ArrayList<>();
+        List<CoordenadasVO> listFaixa = new ArrayList<>();
+        List<CoordenadasVO> listSex = new ArrayList<>();
+        
+        if((filtros.getDtInit() != null)&&(filtros.getDtEnd() != null)){
+            listDT = repo.listCoordenatesByDate(cidade, ano, filtros.getDtInit(), filtros.getDtEnd());
+        }
+        
+        if(filtros.getCategoria() != null){
+            if(filtros.getCategoria().equals("todos")){
+                listCat = getCoodenadas(cidade, ano);
+            }
+            if(filtros.getCategoria().equals("confirmados")){
+                listCat = repo.listCoordenatesByCategoryConfirmado(cidade, ano);
+            }
+            if(filtros.getCategoria().equals("graves")){
+                listCat = repo.listCoordenatesByCategoryGrave(cidade, ano);
+            }
+            if(filtros.getCategoria().equals("obitos")){
+                listCat = repo.listCoordenatesByCategoryObito(cidade, ano);
+            }
+        }
+        
+        if(filtros.getFaixaInit() != null){
+            Date d = new Date();
+            listFaixa = repo.listCoordenatesByFaixa(cidade, ano, filtros.getFaixaInit(),
+                    filtros.getFaixaEnd(), d);
+        }
+        
+        if(filtros.getGravidez() != null){
+            listGest = repo.listCoordenatesByGestante(cidade, ano, filtros.getGravidez());
+        }
+        
+        if(filtros.getSexo() != null){
+            listSex = repo.listCoordenatesBySexo(cidade, ano, filtros.getSexo());
+        }
+        
+        return getResultCoorList(listCat, listDT, listFaixa, listGest, listSex);
+    }
+
+//      public List<CoordenadasVO> getResultCoorList(List<CoordenadasVO> ... listas){
+//          List<CoordenadasVO> result = new ArrayList<>();
+//         
+//          
+//          return result;
+//      }
+    public List<CoordenadasVO> getResultCoorList(List<CoordenadasVO> ... listas){ 
+        
+        System.out.println(listas[0].size());
+        System.out.println(listas[1].size());
+        System.out.println(listas[2].size());
+        System.out.println(listas[3].size());
+        System.out.println(listas[4].size());
+        System.out.println("________________");
+
+      
+        List<CoordenadasVO> intersec = listas[0];
+        if (!listas[1].isEmpty()) {
+            intersec.retainAll(listas[1]);
+        }
+        if (!listas[2].isEmpty()) {
+            intersec.retainAll(listas[2]);
+        }
+        if (!listas[3].isEmpty()) {
+            intersec.retainAll(listas[3]);
+        }
+        if (!listas[4].isEmpty()) {
+            intersec.retainAll(listas[4]);
+        }
+        System.out.println(listas[0].size());
+        
+        System.out.println(intersec.size());
+        return intersec;
+    }
     
 }
 

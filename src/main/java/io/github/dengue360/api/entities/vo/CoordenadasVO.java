@@ -28,5 +28,20 @@ public class CoordenadasVO {
     public void setPos(List pos) {
         this.pos = pos;
     }  
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        final CoordenadasVO other = (CoordenadasVO) obj;
+        if(!this.pos.containsAll(other.pos)){
+            return false;
+        }
+        return true;
+    }
     
 }

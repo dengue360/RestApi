@@ -134,7 +134,7 @@ public interface CaseRepository extends JpaRepository<CaseD, CasePK>{
               @Param("ageInit")Integer ageInit, @Param("ageEnd")Integer ageEnd, @Param("data") Date data);
       
       //Map Queries
-      
+      //in todos
       @Query("select DISTINCT NEW io.github.dengue360.api.entities.vo.CoordenadasVO(l.lat, l.lng) FROM CaseD c "
           + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
           + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
@@ -150,4 +150,60 @@ public interface CaseRepository extends JpaRepository<CaseD, CasePK>{
 //          + "WHERE (l.cidade = :city AND t.ano = :year) AND (l.lat not like '') :filter")
 //      public List<CoordenadasVO> listCasesCoordenatesFilter(@Param("city")String cidade, 
 //              @Param("year")Integer ano, @Param("filter")String filter);
+       @Query("select DISTINCT NEW io.github.dengue360.api.entities.vo.CoordenadasVO(l.lat, l.lng) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND l.lat not like '' AND "
+          + "(t.noteDate BETWEEN :dtInit AND :dtEnd)")
+      public List<CoordenadasVO> listCoordenatesByDate(@Param("city")String cidade, @Param("year")Integer ano, 
+              @Param("dtInit")Date dtIni, @Param("dtEnd")Date dtFim);
+      
+      @Query("select DISTINCT NEW io.github.dengue360.api.entities.vo.CoordenadasVO(l.lat, l.lng) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND l.lat not like '' AND "
+          + "c.grave = true")
+      public List<CoordenadasVO> listCoordenatesByCategoryGrave(@Param("city")String cidade, @Param("year")Integer ano);
+      
+      @Query("select DISTINCT NEW io.github.dengue360.api.entities.vo.CoordenadasVO(l.lat, l.lng) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND l.lat not like '' AND "
+          + "c.confirmado = true")
+      public List<CoordenadasVO> listCoordenatesByCategoryConfirmado(@Param("city")String cidade, @Param("year")Integer ano);
+
+      @Query("select DISTINCT NEW io.github.dengue360.api.entities.vo.CoordenadasVO(l.lat, l.lng) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND l.lat not like '' AND "
+          + "c.obito = true")
+      public List<CoordenadasVO> listCoordenatesByCategoryObito(@Param("city")String cidade, @Param("year")Integer ano);
+      
+      @Query("SELECT DISTINCT NEW io.github.dengue360.api.entities.vo.CoordenadasVO(l.lat, l.lng) FROM CaseD c "
+        +"INNER JOIN Person p ON (c.id.personCod = p.id) "
+        +"INNER JOIN Location l ON (c.id.locationCod = l.id) "
+        +"INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+        +"WHERE (l.cidade = :city AND t.ano = :year "
+        +"AND ((:data - p.dataNasc)/365 >= :ageInit and (:data - p.dataNasc)/365 <= :ageEnd))")
+      public List<CoordenadasVO> listCoordenatesByFaixa(@Param("city")String cidade, @Param("year")Integer ano, 
+              @Param("ageInit")Integer ageInit, @Param("ageEnd")Integer ageEnd, @Param("data") Date data);
+      
+      @Query("select DISTINCT NEW io.github.dengue360.api.entities.vo.CoordenadasVO(l.lat, l.lng) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN Person p ON (c.id.personCod = p.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND l.lat not like '' AND "
+          + "p.gestante = :tipoG")
+      public List<CoordenadasVO> listCoordenatesByGestante(@Param("city")String cidade, @Param("year")Integer ano,
+              @Param("tipoG")String tipo);
+      
+     @Query("select DISTINCT NEW io.github.dengue360.api.entities.vo.CoordenadasVO(l.lat, l.lng) FROM CaseD c "
+          + "INNER JOIN Location l ON (c.id.locationCod = l.id) "
+          + "INNER JOIN Person p ON (c.id.personCod = p.id) "
+          + "INNER JOIN TimeD t ON (c.id.timeCod = t.id) "
+          + "WHERE (l.cidade = :city AND t.ano = :year) AND l.lat not like '' AND "
+          + "p.sexo = :sex")
+      public List<CoordenadasVO> listCoordenatesBySexo(@Param("city")String cidade, @Param("year")Integer ano,
+              @Param("sex")String sexo); 
+
 }
